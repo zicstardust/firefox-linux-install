@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-#check args
+#check version
 if [ $firefox_edition="esr" ];then
     firefox_url="https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US"
     firefox_name="Firefox Extended Support Release"
@@ -13,6 +13,9 @@ elif [ $firefox_edition="nightly" ];then
 elif [ $firefox_edition="beta" ];then
     firefox_url="https://download.mozilla.org/?product=firefox-beta-latest-ssl&os=linux64&lang=en-US"
     firefox_name="Firefox Beta"
+elif [ $firefox_edition="stable" ];then
+    firefox_url="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
+    firefox_name="Firefox"
 else
     echo "Invalid edition"
     exit 2

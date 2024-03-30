@@ -1,5 +1,10 @@
 # Install
 
+## Firefox Stable
+```bash
+firefox_edition="stable" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
+```
+
 ## Firefox ESR
 ```bash
 firefox_edition="esr" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
