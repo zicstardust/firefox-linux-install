@@ -7,6 +7,9 @@ if [ $firefox_edition="esr" ];then
 elif [ $firefox_edition="dev" ];then
     firefox_url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
     firefox_name="Firefox Developer Edition"
+elif [ $firefox_edition="nightly" ];then
+    firefox_url="https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US"
+    firefox_name="Firefox Nightly"
 else
     echo "Invalid edition"
     exit 2
