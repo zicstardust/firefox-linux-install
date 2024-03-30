@@ -2,13 +2,11 @@
 
 #check args
 if [ $firefox_edition="esr" ];then
-    export firefox_url="https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US"
-    export firefox_name="Firefox Extended Support Release"
-    export firefox_edition="esr"
+    firefox_url="https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US"
+    firefox_name="Firefox Extended Support Release"
 elif [ $firefox_edition="dev" ];then
-    export firefox_url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
-    export firefox_name="Firefox Developer Edition"
-    export firefox_edition="dev"
+    firefox_url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
+    firefox_name="Firefox Developer Edition"
 else
     echo "Invalid edition"
     exit 2
