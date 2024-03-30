@@ -1,5 +1,11 @@
 # Install
 
+## Firefox ESR
 ```bash
-curl https://raw.githubusercontent.com/zicstardust/firefox-developer-linux-install/main/install.sh | bash
+firefox_edition="esr" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
+```
+
+## Firefox Dev
+```bash
+firefox_edition="dev" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
 ```
