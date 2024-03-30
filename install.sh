@@ -10,6 +10,9 @@ elif [ $firefox_edition="dev" ];then
 elif [ $firefox_edition="nightly" ];then
     firefox_url="https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US"
     firefox_name="Firefox Nightly"
+elif [ $firefox_edition="beta" ];then
+    firefox_url="https://download.mozilla.org/?product=firefox-beta-latest-ssl&os=linux64&lang=en-US"
+    firefox_name="Firefox Beta"
 else
     echo "Invalid edition"
     exit 2
