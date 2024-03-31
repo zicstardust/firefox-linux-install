@@ -1,20 +1,26 @@
 #!/usr/bin/bash
 
+if [ $firefox_arch="x86_32" ];then
+    firefox_arch=""
+else
+    firefox_arch="64"
+fi
+
 #check version
 if [ $firefox_edition="esr" ];then
-    firefox_url="https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux64&lang=en-US"
+    firefox_url="https://download.mozilla.org/?product=firefox-esr-latest-ssl&os=linux${firefox_arch}&lang=en-US"
     firefox_name="Firefox Extended Support Release"
 elif [ $firefox_edition="dev" ];then
-    firefox_url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
+    firefox_url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux${firefox_arch}&lang=en-US"
     firefox_name="Firefox Developer Edition"
 elif [ $firefox_edition="nightly" ];then
-    firefox_url="https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux64&lang=en-US"
+    firefox_url="https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux${firefox_arch}&lang=en-US"
     firefox_name="Firefox Nightly"
 elif [ $firefox_edition="beta" ];then
-    firefox_url="https://download.mozilla.org/?product=firefox-beta-latest-ssl&os=linux64&lang=en-US"
+    firefox_url="https://download.mozilla.org/?product=firefox-beta-latest-ssl&os=linux${firefox_arch}&lang=en-US"
     firefox_name="Firefox Beta"
 elif [ $firefox_edition="stable" ];then
-    firefox_url="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
+    firefox_url="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux${firefox_arch}&lang=en-US"
     firefox_name="Firefox"
 else
     echo "Invalid edition"
