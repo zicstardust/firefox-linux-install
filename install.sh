@@ -10,7 +10,7 @@ if [[ $(uname -m) == "aarch64" ]]; then
 elif [[ $(uname -m) == "x86_64" ]]; then
   ARCH="64"
 else
-  echo "architecture $(uname -m) not support"
+  echo "architecture \"$(uname -m)\" not support"
   exit 1
 fi
 
@@ -31,8 +31,8 @@ elif [ "$EDITION" == 'beta' ]; then
     EDITION_URL='beta'
     firefox_name="Firefox Beta"
 else
-    echo "Invalid edition"
-    exit 2
+    echo "Edition: \"${EDITION}\" invalid"
+    exit 1
 fi
 
 firefox_url="https://download.mozilla.org/?product=firefox-${EDITION_URL}latest-ssl&os=linux${ARCH}&lang=${LANG}"
