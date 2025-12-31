@@ -3,7 +3,22 @@
 set -e
 : "${LANG:=en-US}"
 : "${EDITION:=stable}"
+: "${SCOPE:=user}"
 
+if [ "$SCOPE" == "user" ]; then
+    BASE_DIR="${HOME}/.local"
+    LOCAL_DIR=$BASE_DIR
+elif [ "$SCOPE" == "computer" ]; then
+    if [ "$(whoami)" != "root" ]; then
+        echo "Scope Computer need run with root"
+        exit 1
+    fi
+    BASE_DIR=""
+    LOCAL_DIR="/usr/local"
+else
+    echo "SCOPE: \"${SCOPE}\" invalid"
+    exit 1
+fi
 
 if [[ $(uname -m) == "aarch64" ]]; then
   ARCH="64-aarch64"
@@ -38,54 +53,61 @@ fi
 firefox_url="https://download.mozilla.org/?product=firefox-${EDITION_URL}latest-ssl&os=linux${ARCH}&lang=${LANG}"
 
 #Install firefox
-mkdir -p ~/.local/opt ~/.local/bin
+mkdir -p ${BASE_DIR}/opt ${LOCAL_DIR}/bin
 
 curl --location "$firefox_url" --output /tmp/firefox-${EDITION}.tar.xz
 tar --extract --verbose --preserve-permissions -f /tmp/firefox-${EDITION}.tar.xz
 rm -f /tmp/firefox-${EDITION}.tar.xz
 
-if [ -d "~/.local/opt/firefox-${EDITION}" ]; then
-    rm -Rf "~/.local/opt/firefox-${EDITION}"
+if [ -d "${BASE_DIR}/opt/firefox-${EDITION}" ]; then
+    rm -Rf "${BASE_DIR}/opt/firefox-${EDITION}"
 fi
 
-mv firefox ~/.local/opt/firefox-${EDITION}
+mv firefox ${BASE_DIR}/opt/firefox-${EDITION}
 
-cat > ~/.local/bin/firefox-${EDITION} <<EXEC
+cat > ${LOCAL_DIR}/bin/firefox-${EDITION} <<EXEC
 #!/usr/bin/bash
 
 if [ "\$1" == "--uninstall" ]; then
-    exec ~/.local/opt/firefox-${EDITION}/uninstall.sh
+    exec ${BASE_DIR}/opt/firefox-${EDITION}/uninstall.sh
 else
-    exec  ~/.local/opt/firefox-${EDITION}/firefox "\$@"
+    exec ${BASE_DIR}/opt/firefox-${EDITION}/firefox "\$@"
 fi
 EXEC
-chmod +x ~/.local/bin/firefox-${EDITION}
+chmod +x ${LOCAL_DIR}/bin/firefox-${EDITION}
 
 #Icons
-mkdir -p ~/.local/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
-ln -s ~/.local/opt/firefox-${EDITION}/browser/chrome/icons/default/default16.png ~/.local/share/icons/hicolor/16x16/apps/firefox-${EDITION}.png
-ln -s ~/.local/opt/firefox-${EDITION}/browser/chrome/icons/default/default32.png ~/.local/share/icons/hicolor/32x32/apps/firefox-${EDITION}.png
-ln -s ~/.local/opt/firefox-${EDITION}/browser/chrome/icons/default/default48.png ~/.local/share/icons/hicolor/48x48/apps/firefox-${EDITION}.png
-ln -s ~/.local/opt/firefox-${EDITION}/browser/chrome/icons/default/default64.png ~/.local/share/icons/hicolor/64x64/apps/firefox-${EDITION}.png
-ln -s ~/.local/opt/firefox-${EDITION}/browser/chrome/icons/default/default128.png ~/.local/share/icons/hicolor/128x128/apps/firefox-${EDITION}.png
+mkdir -p ${LOCAL_DIR}/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
+ln -s ${BASE_DIR}/opt/firefox-${EDITION}/browser/chrome/icons/default/default16.png ${LOCAL_DIR}/share/icons/hicolor/16x16/apps/firefox-${EDITION}.png
+ln -s ${BASE_DIR}/opt/firefox-${EDITION}/browser/chrome/icons/default/default32.png ${LOCAL_DIR}/share/icons/hicolor/32x32/apps/firefox-${EDITION}.png
+ln -s ${BASE_DIR}/opt/firefox-${EDITION}/browser/chrome/icons/default/default48.png ${LOCAL_DIR}/share/icons/hicolor/48x48/apps/firefox-${EDITION}.png
+ln -s ${BASE_DIR}/opt/firefox-${EDITION}/browser/chrome/icons/default/default64.png ${LOCAL_DIR}/share/icons/hicolor/64x64/apps/firefox-${EDITION}.png
+ln -s ${BASE_DIR}/opt/firefox-${EDITION}/browser/chrome/icons/default/default128.png ${LOCAL_DIR}/share/icons/hicolor/128x128/apps/firefox-${EDITION}.png
 
 # Create uninstall script
-cat > ~/.local/opt/firefox-${EDITION}/uninstall.sh <<UNINSTALL
+cat > ${BASE_DIR}/opt/firefox-${EDITION}/uninstall.sh <<UNINSTALL
 #!/usr/bin/bash
-rm -Rf ${HOME}/.local/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps/firefox-${EDITION}.png
-rm -f ${HOME}/.local/bin/firefox-${EDITION} 
-rm -f ${HOME}/.local/share/applications/firefox-${EDITION}.desktop 
-rm -Rf ${HOME}/.local/opt/firefox-${EDITION}
 
+SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+if [ "\$SCRIPT_DIR" == "/opt/firefox-${EDITION}" ] && [ "\$(whoami)" != "root" ]; then
+    sudo \$0
+else
+    rm -Rf ${LOCAL_DIR}/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps/firefox-${EDITION}.png
+    rm -f ${LOCAL_DIR}/bin/firefox-${EDITION} 
+    rm -f ${LOCAL_DIR}/share/applications/firefox-${EDITION}.desktop 
+    rm -Rf ${BASE_DIR}/opt/firefox-${EDITION}
+fi
 UNINSTALL
-chmod +x ~/.local/opt/firefox-${EDITION}/uninstall.sh
+chmod +x ${BASE_DIR}/opt/firefox-${EDITION}/uninstall.sh
 
 # Create desktop launcher
-cat > ~/.local/share/applications/firefox-${EDITION}.desktop <<DESKTOP_ENTRY
+mkdir -p ${LOCAL_DIR}/share/applications
+cat > ${LOCAL_DIR}/share/applications/firefox-${EDITION}.desktop <<DESKTOP_ENTRY
 [Desktop Entry]
 Name=${firefox_name}
 GenericName=Web Browser
-Exec=${HOME}/.local/bin/firefox-${EDITION} %u
+Exec=${LOCAL_DIR}/bin/firefox-${EDITION} %u
 Icon=firefox-${EDITION}
 Terminal=false
 Type=Application
@@ -98,14 +120,14 @@ StartupWMClass=${firefox_name}
 
 [Desktop Action new-window]
 Name=Open a New Window
-Exec=${HOME}/.local/bin/firefox-${EDITION} %u
+Exec=${LOCAL_DIR}/bin/firefox-${EDITION} %u
 
 [Desktop Action new-private-window]
 Name=Open a New Private Window
-Exec=${HOME}/.local/bin/firefox-${EDITION} --private-window %u
+Exec=${LOCAL_DIR}/bin/firefox-${EDITION} --private-window %u
 
 [Desktop Action profile-manager]
 Name=Open Profile Manager
-Exec=${HOME}/.local/bin/firefox-${EDITION} -p %u
+Exec=${LOCAL_DIR}/bin/firefox-${EDITION} -p %u
 
 DESKTOP_ENTRY
