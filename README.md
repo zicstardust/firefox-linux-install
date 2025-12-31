@@ -1,46 +1,30 @@
-# Exemples install 64 bits version:
+# Firefox Linux installer
+Install firefox any linux
+
+## Supported Architectures
+
+| Architecture | Available
+| :----: | :----: |
+| x86_32 | ❌ |
+| x86_64 | ✅ |
+| arm64 | ✅ |
+
+## Dependencies
+- bash
+- curl
+
+## Environment Variables
+
+| Variable | Description | Default Value | Accept Values |
+| :----: | :----: | :----: | ---- |
+| `EDITION` | Firefox edition | `stable` | `stable`, `esr`, `dev`, `beta`, `nightly` |
+| `LANG` | Firefox language | `en-US` | `en-US`, `en-GB`, `en-CA`, `ja`, `zh-CN`, `zh-TW`, `es-ES`, `pt-PT`, `pt-BR`, etc |
+
+## Install
 
 ## Firefox Stable
 ```bash
-firefox_edition="stable" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox ESR
-```bash
-firefox_edition="esr" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox Dev
-```bash
-firefox_edition="dev" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox Beta
-```bash
-firefox_edition="beta" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox Nightly
-```bash
-firefox_edition="nightly" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-
-# Exemples install 32 bits version:
-
-## Firefox Stable (32 bits)
-```bash
-firefox_arch="x86_32" firefox_edition="stable" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-
-## Firefox ESR (32 bits)
-```bash
-firefox_arch="x86_32" firefox_edition="esr" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox Dev (32 bits)
-```bash
-firefox_arch="x86_32" firefox_edition="dev" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox Beta (32 bits)
-```bash
-firefox_arch="x86_32" firefox_edition="beta" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
-```
-## Firefox Nightly (32 bits)
-```bash
-firefox_arch="x86_32" firefox_edition="nightly" curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
+#export EDITION='stable'
+#export LANG='en-US'
+curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
 ```
