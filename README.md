@@ -27,3 +27,10 @@ Install firefox any linux
 #export LANG='en-US'
 curl https://raw.githubusercontent.com/zicstardust/firefox-linux-install/main/install.sh | bash
 ```
+
+## Uninstall
+```bash
+#firefox-${EDITION} --uninstall
+#exemple:
+firefox-stable --uninstall
+```

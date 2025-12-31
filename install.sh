@@ -48,12 +48,18 @@ if [ -d "~/.local/opt/firefox-${EDITION}" ]; then
     rm -Rf "~/.local/opt/firefox-${EDITION}"
 fi
 
-if [ -f "~/.local/bin/firefox-${EDITION}" ]; then
-    rm -f "~/.local/bin/firefox-${EDITION}"
-fi
-
 mv firefox ~/.local/opt/firefox-${EDITION}
-ln -s ~/.local/opt/firefox-${EDITION}/firefox ~/.local/bin/firefox-${EDITION}
+
+cat > ~/.local/bin/firefox-${EDITION} <<EXEC
+#!/usr/bin/bash
+
+if [ "\$1" == "--uninstall" ]; then
+    exec ~/.local/opt/firefox-${EDITION}/uninstall.sh
+else
+    exec  ~/.local/opt/firefox-${EDITION}/firefox "\$@"
+fi
+EXEC
+chmod +x ~/.local/bin/firefox-${EDITION}
 
 #Icons
 mkdir -p ~/.local/share/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
