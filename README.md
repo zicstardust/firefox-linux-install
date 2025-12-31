@@ -22,7 +22,6 @@ Install firefox any linux
 
 ## Install
 
-## Firefox Stable
 ```bash
 #export EDITION='stable'
 #export LANG='en-US'
