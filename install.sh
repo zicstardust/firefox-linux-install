@@ -2,7 +2,7 @@
 
 set -e
 : "${LANG:=en-US}"
-: "${EDITION:=stable}" #esr, devedition, nightly, beta, ''
+: "${EDITION:=stable}"
 
 
 if [[ $(uname -m) == "aarch64" ]]; then
