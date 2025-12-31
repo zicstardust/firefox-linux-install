@@ -93,7 +93,7 @@ MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xm
 StartupNotify=true
 Categories=Network;WebBrowser;
 Keywords=web;browser;internet;
-Actions=new-window;new-private-window;profile-manager;uninstall;
+Actions=new-window;new-private-window;profile-manager;
 StartupWMClass=${firefox_name}
 
 [Desktop Action new-window]
@@ -108,7 +108,4 @@ Exec=${HOME}/.local/bin/firefox-${EDITION} --private-window %u
 Name=Open Profile Manager
 Exec=${HOME}/.local/bin/firefox-${EDITION} -p %u
 
-[Desktop Action uninstall]
-Name=Uninstall
-Exec=${HOME}/.local/opt/firefox-${EDITION}/uninstall.sh
 DESKTOP_ENTRY
